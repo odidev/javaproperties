@@ -13,21 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - '3.6'
-          - '3.7'
           - '3.8'
-          - '3.9'
-          - '3.10'
-          - 'pypy-3.6'
-          - 'pypy-3.7'
-          - 'pypy-3.8'
-          - 'pypy-3.9'
-        toxenv: [py]
-        include:
-          - python-version: '3.6'
-            toxenv: lint
-          - python-version: '3.6'
-            toxenv: typing
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -39,11 +25,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip wheel
-          python -m pip install --upgrade --upgrade-strategy=eager coverage tox
+          python3 -m pip install javaproperties tox
 
       - name: Run tests
-        run: tox -e ${{ matrix.toxenv }}
+        run: tox -e py38
 
       - name: Generate XML coverage report
         if: matrix.toxenv == 'py'
